@@ -11,7 +11,7 @@ import java.util.Optional;
 
 @Service
 public class ContactService {
-
+    // connect to dto
     @Autowired
     private ContactRepository contactRepository;
 

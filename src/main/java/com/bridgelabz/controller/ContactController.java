@@ -14,13 +14,12 @@ import java.util.List;
 public class ContactController {
 
     @Autowired
-    private ContactService contactService;
+    private ContactService contactService; // Dependency Injection
 
     // CREATE (POST)
     @PostMapping
     public ResponseEntity<Contact> addContact(@RequestBody ContactDTO contactDTO) {
-        Contact savedContact = contactService.addContact(contactDTO);
-        return ResponseEntity.ok(savedContact);
+        return ResponseEntity.ok(contactService.addContact(contactDTO));
     }
 
     // READ (GET all contacts)
