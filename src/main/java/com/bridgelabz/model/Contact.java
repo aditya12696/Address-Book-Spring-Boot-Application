@@ -1,5 +1,6 @@
-package com.bridgelabz.entity;
+package com.bridgelabz.model;
 
+import com.bridgelabz.dto.ContactDTO;
 import jakarta.persistence.*;
 
 @Entity
@@ -11,13 +12,18 @@ public class Contact {
     private String email;
     private String phone;
 
-    // Constructors
     public Contact() {}
 
     public Contact(String name, String email, String phone) {
         this.name = name;
         this.email = email;
         this.phone = phone;
+    }
+
+    public Contact(ContactDTO contactDTO) {
+        this.name = contactDTO.getName();
+        this.email = contactDTO.getEmail();
+        this.phone = contactDTO.getPhone();
     }
 
     // Getters & Setters

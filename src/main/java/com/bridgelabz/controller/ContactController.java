@@ -1,7 +1,8 @@
 package com.bridgelabz.controller;
 
-import com.bridgelabz.entity.Contact;
-import com.bridgelabz.repository.ContactRepository;
+import com.bridgelabz.dto.ContactDTO;
+import com.bridgelabz.model.Contact;
+import com.bridgelabz.service.ContactService;
 import org.springframework.beans.factory.annotation.*;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -13,49 +14,41 @@ import java.util.List;
 public class ContactController {
 
     @Autowired
-    private ContactRepository contactRepository;
+    private ContactService contactService;
 
     // CREATE (POST)
     @PostMapping
-    public ResponseEntity<Contact> addContact(@RequestBody Contact contact) {
-        Contact savedContact = contactRepository.save(contact);
+    public ResponseEntity<Contact> addContact(@RequestBody ContactDTO contactDTO) {
+        Contact savedContact = contactService.addContact(contactDTO);
         return ResponseEntity.ok(savedContact);
     }
 
     // READ (GET all contacts)
     @GetMapping
     public ResponseEntity<List<Contact>> getAllContacts() {
-        List<Contact> contacts = contactRepository.findAll();
-        return ResponseEntity.ok(contacts);
+        return ResponseEntity.ok(contactService.getAllContacts());
     }
 
     // READ (GET by ID)
     @GetMapping("/{id}")
     public ResponseEntity<Contact> getContactById(@PathVariable Long id) {
-        return contactRepository.findById(id)
+        return contactService.getContactById(id)
                 .map(ResponseEntity::ok)
                 .orElseGet(() -> ResponseEntity.notFound().build());
     }
 
     // UPDATE (PUT by ID)
     @PutMapping("/{id}")
-    public ResponseEntity<Contact> updateContact(@PathVariable Long id, @RequestBody Contact updatedContact) {
-        return contactRepository.findById(id)
-                .map(existingContact -> {
-                    existingContact.setName(updatedContact.getName());
-                    existingContact.setEmail(updatedContact.getEmail());
-                    existingContact.setPhone(updatedContact.getPhone());
-                    contactRepository.save(existingContact);
-                    return ResponseEntity.ok(existingContact);
-                })
+    public ResponseEntity<Contact> updateContact(@PathVariable Long id, @RequestBody ContactDTO contactDTO) {
+        return contactService.updateContact(id, contactDTO)
+                .map(ResponseEntity::ok)
                 .orElseGet(() -> ResponseEntity.notFound().build());
     }
 
     // DELETE (DELETE by ID)
     @DeleteMapping("/{id}")
     public ResponseEntity<String> deleteContact(@PathVariable Long id) {
-        if (contactRepository.existsById(id)) {
-            contactRepository.deleteById(id);
+        if (contactService.deleteContact(id)) {
             return ResponseEntity.ok("Contact deleted successfully");
         }
         return ResponseEntity.notFound().build();
