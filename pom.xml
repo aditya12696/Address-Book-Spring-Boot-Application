@@ -50,6 +50,13 @@
 			<version>9.2.0</version>
 		</dependency>
 
+		<!-- https://mvnrepository.com/artifact/org.zalando/logbook-core -->
+		<dependency>
+			<groupId>org.zalando</groupId>
+			<artifactId>logbook-core</artifactId>
+			<version>3.11.0</version>
+			<scope>test</scope>
+		</dependency>
 
 		<!-- H2 Database (for in-memory testing, optional) -->
 		<dependency>

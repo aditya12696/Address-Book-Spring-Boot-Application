@@ -3,20 +3,19 @@ package com.bridgelabz.service;
 import com.bridgelabz.dto.ContactDTO;
 import com.bridgelabz.model.Contact;
 import com.bridgelabz.repository.ContactRepository;
-import org.springframework.beans.factory.annotation.*;
-import org.springframework.stereotype.*;
-
 import java.util.List;
 import java.util.Optional;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 @Service
 public class ContactService {
-    // connect to dto
+
     @Autowired
     private ContactRepository contactRepository;
 
     public Contact addContact(ContactDTO contactDTO) {
-        Contact contact = new Contact(contactDTO);
+        Contact contact = new Contact(contactDTO.getName(), contactDTO.getEmail(), contactDTO.getPhone());
         return contactRepository.save(contact);
     }
 
@@ -45,3 +44,4 @@ public class ContactService {
         return false;
     }
 }
+
